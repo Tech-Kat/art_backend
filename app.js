@@ -10,9 +10,9 @@ app.get("/", (req, res) => {
     res.send("Welcome To Kendra's Gallery");
 });
 
-// const paintingController = require("./controllers/paintingController");
+const paintingController = require("./controllers/paintingController");
 
-// app.use("/paintings", paintingController);
+app.use("/paintings", paintingController);
 
 app.get("*", (re, res)=> {
     res.status(404).send("Page Not Found");
