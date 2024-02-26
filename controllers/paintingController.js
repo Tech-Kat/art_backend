@@ -9,7 +9,7 @@ const {
   updatePainting,
   deletePainting,
 } = require("../queries/painting");
-const { checkName } = require("../unused/checkPainting");
+// const { checkName } = require("../unused/checkPainting");
 
 //INDEX
 paintings.get("/", async (req, res) => {
