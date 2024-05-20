@@ -14,22 +14,25 @@ const {
 //INDEX
 paintings.get("/", async (req, res) => {
   const allPaintings = await getAllPaintings();
-
-  if (allPaintings[0]) {
+try{
+  if(allPaintings[0]) {
     res.status(200).json(allPaintings);
-  } else {
-    res.status(500).json({ error: "server error" });
+  } 
+}catch(err){
+    res.status(500).json({ err: "server error" });
   }
 });
 
 //SHOW
 paintings.get("/:id", async (req, res) => {
-  const { id } = req.params;
-  const painting = await getPainting(id);
-  if (painting) {
-    res.json(painting);
-  } else {
-    res.status(404).json({ error: "not found" });
+  try{
+    const { id } = req.params;
+    const painting = await getPainting(id);
+    if (painting) {
+      res.json(painting);
+    }
+  }catch(err){
+    res.status(404).json({ err: `${id} not found` });
   }
 });
 
@@ -50,7 +53,7 @@ paintings.post("/", async (req, res) => {
     const painting = await createPainting(req.body);
     res.json(painting);
   } catch (error) {
-    res.status(400).json({ error });
+    res.status(400).json({ error: err.message });
   }
 });
 
@@ -71,21 +74,26 @@ paintings.put("/:id", async (req, res) => {
   try {
     const updatedPainting = await updatePainting(id, req.body);
     res.json(updatedPainting);
-  } catch (error) {
-    res.status(400).json({ error });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
 });
 
 //Delete
 paintings.delete("/:id", async (req, res) => {
+  try{
   const { id } = req.params;
   const deletedPainting = await deletePainting(id);
 
   if (deletedPainting.id) {
     res.status(200).json(deletedPainting);
-  } else {
-    res.status(404).json("Painting No Longer Available");
   }
+  }catch(err){
+    res.status(404).json({err: `Painting ${id} is No Longer Available`});
+  }
+   
+    
+  
 });
 
 module.exports = paintings;
